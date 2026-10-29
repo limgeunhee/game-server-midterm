@@ -67,8 +67,9 @@ namespace BattleArena
             int received = 0;
             while (received < buffer.Length)
             {
-                int n = await Task.Run(() => socket.Receive(
-                    buffer, received, buffer.Length - received, SocketFlags.None));
+                int n = await socket.ReceiveAsync(
+                    new ArraySegment<byte>(buffer, received, buffer.Length - received),
+                    SocketFlags.None);
                 if (n == 0) return false;
                 received += n;
             }
