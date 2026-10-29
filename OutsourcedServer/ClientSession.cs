@@ -28,6 +28,8 @@ namespace BattleArena
 
         private readonly Socket _socket;
         private bool _isConnected = true;
+        private volatile bool _loginCompleted;
+        public bool LoginCompleted => _loginCompleted;
 
         public ClientSession(Socket socket, int playerId)
         {
@@ -102,6 +104,8 @@ namespace BattleArena
                 PlayerId = PlayerId,
                 Message  = $"{Nickname}님, 배틀아레나에 오신 것을 환영합니다!"
             });
+
+            _loginCompleted = true;
 
             GameServer.Instance.Broadcast(new NoticePacket
             {
